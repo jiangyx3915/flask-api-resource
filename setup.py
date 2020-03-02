@@ -14,13 +14,9 @@ else:
     with open('README.md', encoding='utf-8') as f:
         long_description = f.read()
 
-version = {}
-with open('version.py') as f:
-    exec(f.read(), version)
-
 setup(
     name='flask-api-resource',
-    version=version['__version__'],
+    version='0.1.1',
     description='package flask to use conveniently like django',
     long_description=long_description,
     long_description_content_type="text/markdown",
