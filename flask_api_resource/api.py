@@ -4,7 +4,9 @@ description:
 author: jiangyx3915
 date: 2020-02-29
 """
-import flask
+import json
+
+from flask import request, jsonify
 from abc import ABC, abstractmethod
 from importlib import import_module
 
@@ -19,8 +21,9 @@ class BaseResource(ABC):
     def get_urls(self):
         raise NotImplemented()
 
-    def response(self, code, message, data):
-        return flask.jsonify({
+    @staticmethod
+    def response(code, message, data):
+        return jsonify({
             'code': code,
             'message': message,
             'data': data
@@ -31,3 +34,16 @@ class BaseResource(ABC):
 
     def fail(self, code, message, data=None):
         return self.response(code=code, message=message, data=data)
+
+    @staticmethod
+    def get_data():
+        """
+        :return:
+        """
+        body = {}
+        body.update(request.args)
+        body.update(request.form)
+        data = str(request.data, encoding='utf-8')
+        if data:
+            body.update(json.loads(data))
+        return body
